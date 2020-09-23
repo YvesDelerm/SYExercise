@@ -3,7 +3,7 @@ package fr.ydelerm.sherpanyves.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import fr.ydelerm.sherpanyves.MyApplication
-import fr.ydelerm.sherpanyves.repositories.Repository
+import fr.ydelerm.sherpanyves.repository.Repository
 import javax.inject.Inject
 
 class AllViewModel(application: Application) : AndroidViewModel(application) {

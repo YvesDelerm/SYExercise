@@ -1,21 +1,23 @@
-package fr.ydelerm.sherpanyves.repositories
+package fr.ydelerm.sherpanyves.network
 
 import dagger.Module
 import dagger.Provides
-import fr.ydelerm.sherpanyves.network.ApiService
+import fr.ydelerm.sherpanyves.datasource.MasterDataSource
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 private const val BASE_URL = "http://jsonplaceholder.typicode.com/"
 
 @Module
 class NetworkModule {
-
+    @Singleton
     @Provides
-    fun repository(apiService: ApiService): Repository {
-        return NetworkRepositoryImpl(apiService)
+    fun masterDataSource(apiService: ApiService): MasterDataSource {
+        return NetworkDataSourceImpl(apiService)
     }
 
+    @Singleton
     @Provides
     fun provideApiService(): ApiService {
         return Retrofit.Builder()
