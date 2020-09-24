@@ -3,10 +3,7 @@ package fr.ydelerm.sherpanyves.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import fr.ydelerm.sherpanyves.MyApplication
-import fr.ydelerm.sherpanyves.model.Album
-import fr.ydelerm.sherpanyves.model.Photo
-import fr.ydelerm.sherpanyves.model.Post
-import fr.ydelerm.sherpanyves.model.User
+import fr.ydelerm.sherpanyves.model.*
 import javax.inject.Inject
 
 class MixedRepositoryImpl(application: Application) : Repository {
@@ -54,6 +51,10 @@ class MixedRepositoryImpl(application: Application) : Repository {
 
     override fun refreshPhotos() {
         masterDataSource.refreshPhotos()
+    }
+
+    override fun getPostsWithUsers(): LiveData<List<PostWithUser>> {
+        return slaveDataSource.getPostsWithUsers()
     }
 
 }

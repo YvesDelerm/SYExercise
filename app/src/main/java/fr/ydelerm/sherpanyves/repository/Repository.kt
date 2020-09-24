@@ -1,10 +1,7 @@
 package fr.ydelerm.sherpanyves.repository
 
 import androidx.lifecycle.LiveData
-import fr.ydelerm.sherpanyves.model.Album
-import fr.ydelerm.sherpanyves.model.Photo
-import fr.ydelerm.sherpanyves.model.Post
-import fr.ydelerm.sherpanyves.model.User
+import fr.ydelerm.sherpanyves.model.*
 
 interface Repository {
     fun getUsers(): LiveData<List<User>>
@@ -15,4 +12,5 @@ interface Repository {
     fun refreshAlbums()
     fun getPhotos(): LiveData<List<Photo>>
     fun refreshPhotos()
+    fun getPostsWithUsers(): LiveData<List<PostWithUser>>
 }

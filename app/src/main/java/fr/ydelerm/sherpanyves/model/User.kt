@@ -1,12 +1,13 @@
 package fr.ydelerm.sherpanyves.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
 data class User(
-    @PrimaryKey
+    @PrimaryKey @ColumnInfo(name = "userId")
     val id : Int,
     val name : String,
     val username : String,

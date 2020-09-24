@@ -1,14 +1,11 @@
 package fr.ydelerm.sherpanyves.persistence
 
 import androidx.lifecycle.LiveData
+import fr.ydelerm.sherpanyves.model.*
 import fr.ydelerm.sherpanyves.repository.SlaveDataSource
-import fr.ydelerm.sherpanyves.model.Album
-import fr.ydelerm.sherpanyves.model.Photo
-import fr.ydelerm.sherpanyves.model.Post
-import fr.ydelerm.sherpanyves.model.User
 import javax.inject.Inject
 
-class DbDataSourceImpl @Inject constructor(val db: AppDatabase) : SlaveDataSource {
+class DbDataSourceImpl @Inject constructor(db: AppDatabase) : SlaveDataSource {
 
     private var albumDAO: AlbumDAO = db.albumDAO()
     private var photoDAO: PhotoDAO = db.photoDAO()
@@ -45,5 +42,9 @@ class DbDataSourceImpl @Inject constructor(val db: AppDatabase) : SlaveDataSourc
 
     override fun insertPhotos(photos: List<Photo>) {
         Thread { photoDAO.insertPhotos(photos) }.start()
+    }
+
+    override fun getPostsWithUsers(): LiveData<List<PostWithUser>> {
+        return postDAO.getPostsAndUsers()
     }
 }

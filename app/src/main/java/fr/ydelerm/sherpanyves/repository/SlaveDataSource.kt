@@ -1,13 +1,12 @@
 package fr.ydelerm.sherpanyves.repository
 
-import fr.ydelerm.sherpanyves.model.Album
-import fr.ydelerm.sherpanyves.model.Photo
-import fr.ydelerm.sherpanyves.model.Post
-import fr.ydelerm.sherpanyves.model.User
+import androidx.lifecycle.LiveData
+import fr.ydelerm.sherpanyves.model.*
 
 interface SlaveDataSource : ReadDataSource {
     fun insertUsers(users: List<User>)
     fun insertAlbums(albums: List<Album>)
     fun insertPosts(posts: List<Post>)
     fun insertPhotos(photos: List<Photo>)
+    fun getPostsWithUsers():LiveData<List<PostWithUser>>
 }
