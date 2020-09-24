@@ -2,7 +2,7 @@ package fr.ydelerm.sherpanyves.network
 
 import dagger.Module
 import dagger.Provides
-import fr.ydelerm.sherpanyves.datasource.MasterDataSource
+import fr.ydelerm.sherpanyves.repository.MasterDataSource
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

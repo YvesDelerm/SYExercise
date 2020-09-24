@@ -1,7 +1,7 @@
 package fr.ydelerm.sherpanyves.persistence
 
 import androidx.lifecycle.LiveData
-import fr.ydelerm.sherpanyves.datasource.SlaveDataSource
+import fr.ydelerm.sherpanyves.repository.SlaveDataSource
 import fr.ydelerm.sherpanyves.model.Album
 import fr.ydelerm.sherpanyves.model.Photo
 import fr.ydelerm.sherpanyves.model.Post

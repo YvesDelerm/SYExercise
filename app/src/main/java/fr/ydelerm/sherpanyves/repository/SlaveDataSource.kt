@@ -1,4 +1,4 @@
-package fr.ydelerm.sherpanyves.datasource
+package fr.ydelerm.sherpanyves.repository
 
 import fr.ydelerm.sherpanyves.model.Album
 import fr.ydelerm.sherpanyves.model.Photo

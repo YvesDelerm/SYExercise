@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import fr.ydelerm.sherpanyves.datasource.SlaveDataSource
+import fr.ydelerm.sherpanyves.repository.SlaveDataSource
 import javax.inject.Singleton
 
 @Module

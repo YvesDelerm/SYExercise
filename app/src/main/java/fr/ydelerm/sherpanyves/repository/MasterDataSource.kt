@@ -1,4 +1,4 @@
-package fr.ydelerm.sherpanyves.datasource
+package fr.ydelerm.sherpanyves.repository
 
 interface MasterDataSource : ReadDataSource {
     fun refreshUsers()

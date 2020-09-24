@@ -1,4 +1,4 @@
-package fr.ydelerm.sherpanyves.datasource
+package fr.ydelerm.sherpanyves.repository
 
 import androidx.lifecycle.LiveData
 import fr.ydelerm.sherpanyves.model.Album

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import fr.ydelerm.sherpanyves.datasource.MasterDataSource
+import fr.ydelerm.sherpanyves.repository.MasterDataSource
 import fr.ydelerm.sherpanyves.model.Album
 import fr.ydelerm.sherpanyves.model.Photo
 import fr.ydelerm.sherpanyves.model.Post
@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 private const val LOGTAG = "NetworkDataSourceImpl"
 
-class NetworkDataSourceImpl @Inject constructor(private val apiService: ApiService) : MasterDataSource {
+class NetworkDataSourceImpl @Inject constructor(private val apiService: ApiService) :
+    MasterDataSource {
     private var users = MutableLiveData<List<User>>()
     private var albums = MutableLiveData<List<Album>>()
     private var posts = MutableLiveData<List<Post>>()
