@@ -1,6 +1,7 @@
 package fr.ydelerm.sherpanyves.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +42,7 @@ class PostListFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 
-        allViewModel.allPostsWithUsers.observe(viewLifecycleOwner) {
+        allViewModel.allPostsAndUsers.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 buttonRefresh.visibility = View.VISIBLE
                 textviewError.visibility = View.VISIBLE
@@ -49,6 +50,14 @@ class PostListFragment : Fragment() {
                 recyclerView.swapAdapter(PostAdapter(it, /*, this*/), true)
             }
             swipeContainer.isRefreshing = false
+        }
+
+        allViewModel.allAlbumWithPhotos.observe(viewLifecycleOwner) {
+            Log.e("TEST", "albums " + it.size)
+        }
+
+        allViewModel.userWithAlbumsAndPhotos.observe(viewLifecycleOwner) {
+            Log.e("TEST", "user albums " + it?.albumsWithPhotos?.size)
         }
 
         buttonRefresh.setOnClickListener { refresh(allViewModel) }

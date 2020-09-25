@@ -12,5 +12,7 @@ interface Repository {
     fun refreshAlbums()
     fun getPhotos(): LiveData<List<Photo>>
     fun refreshPhotos()
-    fun getPostsWithUsers(): LiveData<List<PostWithUser>>
+    fun getPostsAndUsers(): LiveData<List<PostAndUser>>
+    fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>>
+    fun getUserWithAlbumsAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?>
 }

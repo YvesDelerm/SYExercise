@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import fr.ydelerm.sherpanyves.model.User
+import fr.ydelerm.sherpanyves.model.UserWithAlbumsAndPhotos
 
 @Dao
 interface UserDAO {
@@ -14,4 +15,7 @@ interface UserDAO {
 
     @Query("SELECT * FROM user")
     fun loadAllUsers(): LiveData<List<User>>
+
+    @Query("SELECT * FROM user where userId= :givenUserId")
+    fun loadUserWithAlbumsAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?>
 }

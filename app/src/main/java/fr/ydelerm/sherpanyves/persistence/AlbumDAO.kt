@@ -1,11 +1,9 @@
 package fr.ydelerm.sherpanyves.persistence
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import fr.ydelerm.sherpanyves.model.Album
+import fr.ydelerm.sherpanyves.model.AlbumWithPhotos
 
 @Dao
 interface AlbumDAO {
@@ -14,4 +12,8 @@ interface AlbumDAO {
 
     @Query("SELECT * FROM album")
     fun loadAllAlbums(): LiveData<List<Album>>
+
+    @Transaction
+    @Query("SELECT * FROM album")
+    fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>>
 }

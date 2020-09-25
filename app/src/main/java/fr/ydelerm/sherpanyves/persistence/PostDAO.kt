@@ -3,7 +3,7 @@ package fr.ydelerm.sherpanyves.persistence
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import fr.ydelerm.sherpanyves.model.Post
-import fr.ydelerm.sherpanyves.model.PostWithUser
+import fr.ydelerm.sherpanyves.model.PostAndUser
 
 @Dao
 interface PostDAO {
@@ -15,5 +15,5 @@ interface PostDAO {
 
     @Transaction
     @Query("SELECT * FROM user")
-    fun getPostsAndUsers(): LiveData<List<PostWithUser>>
+    fun getPostsAndUsers(): LiveData<List<PostAndUser>>
 }

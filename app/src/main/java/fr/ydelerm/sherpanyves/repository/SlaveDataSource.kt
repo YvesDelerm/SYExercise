@@ -8,5 +8,7 @@ interface SlaveDataSource : ReadDataSource {
     fun insertAlbums(albums: List<Album>)
     fun insertPosts(posts: List<Post>)
     fun insertPhotos(photos: List<Photo>)
-    fun getPostsWithUsers():LiveData<List<PostWithUser>>
+    fun getPostsWithUsers():LiveData<List<PostAndUser>>
+    fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>>
+    fun getUserWithAlbumAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?>
 }

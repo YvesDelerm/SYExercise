@@ -1,6 +1,5 @@
 package fr.ydelerm.sherpanyves.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,9 @@ import androidx.annotation.NonNull
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
-import fr.ydelerm.sherpanyves.model.Post
-import fr.ydelerm.sherpanyves.model.PostWithUser
+import fr.ydelerm.sherpanyves.model.PostAndUser
 
-class PostAdapter(private val posts: List<PostWithUser>/*, private val clickListener: PostClickedListener*/) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+class PostAdapter(private val posts: List<PostAndUser>/*, private val clickListener: PostClickedListener*/) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     class PostViewHolder(@NonNull v: View) : RecyclerView.ViewHolder(v) {
         internal var postLayout: ConstraintLayout = v.findViewById(R.id.cars_layout)

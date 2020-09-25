@@ -20,7 +20,9 @@ class AllViewModel(application: Application) : AndroidViewModel(application) {
     val allPosts = repository.getPosts()
     val allAlbums = repository.getAlbums()
     val allPhotos = repository.getPhotos()
-    val allPostsWithUsers = repository.getPostsWithUsers()
+    val allPostsAndUsers = repository.getPostsAndUsers()
+    val allAlbumWithPhotos = repository.getAlbumsWithPhotos()
+    val userWithAlbumsAndPhotos = repository.getUserWithAlbumsAndPhotos(1)
 
     fun refreshAll() {
         repository.refreshUsers()

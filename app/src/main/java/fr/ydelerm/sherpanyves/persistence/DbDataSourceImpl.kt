@@ -44,7 +44,15 @@ class DbDataSourceImpl @Inject constructor(db: AppDatabase) : SlaveDataSource {
         Thread { photoDAO.insertPhotos(photos) }.start()
     }
 
-    override fun getPostsWithUsers(): LiveData<List<PostWithUser>> {
+    override fun getPostsWithUsers(): LiveData<List<PostAndUser>> {
         return postDAO.getPostsAndUsers()
+    }
+
+    override fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>> {
+        return albumDAO.getAlbumsWithPhotos()
+    }
+
+    override fun getUserWithAlbumAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?> {
+        return userDAO.loadUserWithAlbumsAndPhotos(givenUserId)
     }
 }

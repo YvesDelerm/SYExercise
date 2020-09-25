@@ -53,8 +53,16 @@ class MixedRepositoryImpl(application: Application) : Repository {
         masterDataSource.refreshPhotos()
     }
 
-    override fun getPostsWithUsers(): LiveData<List<PostWithUser>> {
+    override fun getPostsAndUsers(): LiveData<List<PostAndUser>> {
         return slaveDataSource.getPostsWithUsers()
+    }
+
+    override fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>> {
+        return slaveDataSource.getAlbumsWithPhotos()
+    }
+
+    override fun getUserWithAlbumsAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?> {
+        return slaveDataSource.getUserWithAlbumAndPhotos(givenUserId)
     }
 
 }
