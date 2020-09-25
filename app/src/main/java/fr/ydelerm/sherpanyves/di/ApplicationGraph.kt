@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Component(modules = [RepositoryModule::class, NetworkModule::class, PersistenceModule::class])
 interface ApplicationGraph {
     fun inject(viewModel: AllViewModel)
-    fun inject(mixedRepositoryImpl: MixedRepositoryImpl)
+    fun inject(repository: MixedRepositoryImpl)
 
     @Component.Builder
     interface Builder {

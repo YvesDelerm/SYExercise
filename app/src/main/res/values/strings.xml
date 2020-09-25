@@ -3,4 +3,5 @@
     <string name="screens_title">Challenge Accepted!</string>
     <string name="error_unavailable_data">No data available</string>
     <string name="refresh">Refresh</string>
+    <string name="delete">Delete</string>
 </resources>

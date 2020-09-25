@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
-import fr.ydelerm.sherpanyves.viewmodel.PostViewModel
+import fr.ydelerm.sherpanyves.viewmodel.PostListViewModel
 import kotlinx.android.synthetic.main.post_list_fragment.*
 
 class PostListFragment : Fragment() {
@@ -19,7 +19,7 @@ class PostListFragment : Fragment() {
         fun newInstance() = PostListFragment()
     }
 
-    private lateinit var postViewModel: PostViewModel
+    private lateinit var postListViewModel: PostListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +30,7 @@ class PostListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        postListViewModel = ViewModelProvider(this).get(PostListViewModel::class.java)
 
     }
 
@@ -47,7 +47,9 @@ class PostListFragment : Fragment() {
                 buttonRefresh.visibility = View.VISIBLE
                 textviewError.visibility = View.VISIBLE
             } else {
-                recyclerView.swapAdapter(PostAdapter(it, /*, this*/), true)
+                recyclerView.swapAdapter(PostAdapter(it, this /*, this*/), true)
+                buttonRefresh.visibility = View.GONE
+                textviewError.visibility = View.GONE
             }
             swipeContainer.isRefreshing = false
         }
@@ -62,7 +64,6 @@ class PostListFragment : Fragment() {
 
         buttonRefresh.setOnClickListener { refresh(allViewModel) }
         swipeContainer.setOnRefreshListener { refresh(allViewModel) }
-
 
         refresh(allViewModel)
     }

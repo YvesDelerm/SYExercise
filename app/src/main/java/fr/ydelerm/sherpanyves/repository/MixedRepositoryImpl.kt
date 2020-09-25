@@ -2,6 +2,7 @@ package fr.ydelerm.sherpanyves.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import fr.ydelerm.sherpanyves.MyApplication
 import fr.ydelerm.sherpanyves.model.*
 import javax.inject.Inject
@@ -63,6 +64,10 @@ class MixedRepositoryImpl(application: Application) : Repository {
 
     override fun getUserWithAlbumsAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?> {
         return slaveDataSource.getUserWithAlbumAndPhotos(givenUserId)
+    }
+
+    override fun deletePost(post: Post) {
+        slaveDataSource.deletePost(post)
     }
 
 }

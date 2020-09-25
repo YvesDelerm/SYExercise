@@ -1,6 +1,7 @@
 package fr.ydelerm.sherpanyves.persistence
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import fr.ydelerm.sherpanyves.model.*
 import fr.ydelerm.sherpanyves.repository.SlaveDataSource
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class DbDataSourceImpl @Inject constructor(db: AppDatabase) : SlaveDataSource {
     }
 
     override fun getPostsWithUsers(): LiveData<List<PostAndUser>> {
-        return postDAO.getPostsAndUsers()
+        return postDAO.getPostsWithUser()
     }
 
     override fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>> {
@@ -54,5 +55,10 @@ class DbDataSourceImpl @Inject constructor(db: AppDatabase) : SlaveDataSource {
 
     override fun getUserWithAlbumAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?> {
         return userDAO.loadUserWithAlbumsAndPhotos(givenUserId)
+    }
+
+    override fun deletePost(post: Post) {
+        Thread { postDAO.deletePost(post) }.start()
+
     }
 }

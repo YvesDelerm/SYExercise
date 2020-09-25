@@ -3,6 +3,7 @@ package fr.ydelerm.sherpanyves.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import fr.ydelerm.sherpanyves.MyApplication
+import fr.ydelerm.sherpanyves.model.Post
 import fr.ydelerm.sherpanyves.repository.Repository
 import javax.inject.Inject
 
@@ -29,5 +30,9 @@ class AllViewModel(application: Application) : AndroidViewModel(application) {
         repository.refreshPosts()
         repository.refreshAlbums()
         repository.refreshPhotos()
+    }
+
+    fun deletePost(post: Post) {
+        repository.deletePost(post)
     }
 }
