@@ -14,7 +14,7 @@ import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
 
-class PostAdapter(private val posts: List<PostAndUser>, viewModelStoreOwner: ViewModelStoreOwner/*, private val clickListener: PostClickedListener*/) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+class PostAdapter(private val postsAndUsers: List<PostAndUser>, viewModelStoreOwner: ViewModelStoreOwner, private val postClickedListener: PostClickedListener) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     val allViewModel = ViewModelProvider(viewModelStoreOwner).get(AllViewModel::class.java)
 
@@ -37,7 +37,7 @@ class PostAdapter(private val posts: List<PostAndUser>, viewModelStoreOwner: Vie
     }
 
     override fun onBindViewHolder(@NonNull holder: PostViewHolder, position: Int) {
-        val post = posts[position]
+        val post = postsAndUsers[position]
 
         holder.textViewTitle.text = post.post.title
         holder.textViewEmail.text = post.user.email
@@ -46,17 +46,17 @@ class PostAdapter(private val posts: List<PostAndUser>, viewModelStoreOwner: Vie
     }
 
     private fun deletePost(@NonNull holder: PostViewHolder) {
-        val post = posts[holder.adapterPosition]
-        allViewModel.deletePost(post.post)
+        val postAndUser = postsAndUsers[holder.adapterPosition]
+        allViewModel.deletePost(postAndUser.post)
     }
 
     private fun onPostSelected(@NonNull holder:PostViewHolder) {
-        val post = posts[holder.adapterPosition]
-        //clickListener.onPostClicked(holder.adapterPosition, post)
+        val postAndUser = postsAndUsers[holder.adapterPosition]
+        postClickedListener.onPostClicked(postAndUser)
     }
 
 
     override fun getItemCount(): Int {
-        return posts.size
+        return postsAndUsers.size
     }
 }

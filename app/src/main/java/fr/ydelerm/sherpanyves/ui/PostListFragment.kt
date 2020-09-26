@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
 import fr.ydelerm.sherpanyves.viewmodel.PostListViewModel
@@ -31,7 +33,6 @@ class PostListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         postListViewModel = ViewModelProvider(this).get(PostListViewModel::class.java)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,13 +42,14 @@ class PostListFragment : Fragment() {
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
+        recyclerView.addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
 
         allViewModel.allPostsAndUsers.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 buttonRefresh.visibility = View.VISIBLE
                 textviewError.visibility = View.VISIBLE
             } else {
-                recyclerView.swapAdapter(PostAdapter(it, this /*, this*/), true)
+                recyclerView.swapAdapter(PostAdapter(it, this , activity as PostClickedListener), true)
                 buttonRefresh.visibility = View.GONE
                 textviewError.visibility = View.GONE
             }

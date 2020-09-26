@@ -1,35 +1,44 @@
 package fr.ydelerm.sherpanyves.ui
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import androidx.lifecycle.ViewModelProvider
 import fr.ydelerm.sherpanyves.R
+import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: AllViewModel
+const val TAG_DETAIL_FRAGMENT: String = "TAG_DETAIL_FRAGMENT"
+class PostListActivity : AppCompatActivity(), PostClickedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_activity)
         title = getString(R.string.screens_title)
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, PostListFragment.newInstance())
+                .commitNow()
+        }
 
-        viewModel = ViewModelProvider(this).get(AllViewModel::class.java)
-
-        viewModel.refreshAll()
-
-        viewModel.allAlbums.observe(this) { refreshText() }
-        viewModel.allPhotos.observe(this) { refreshText() }
-        viewModel.allPosts.observe(this) { refreshText() }
-        viewModel.allUsers.observe(this) { refreshText() }
-
-        startActivity(Intent(this, PostListActivity::class.java))
+        val allViewModel = ViewModelProvider(this).get(AllViewModel::class.java)
+        allViewModel.refreshAll()
     }
 
-    private fun refreshText() {
-        textView.text = "${viewModel.allUsers.value?.size} ${viewModel.allPosts.value?.size} ${viewModel.allAlbums.value?.size} ${viewModel.allPhotos.value?.size}"
+    override fun onPostClicked(postAndUser: PostAndUser) {
+        //TODO handle master / detail
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, PostDetailFragment.newInstance(postAndUser), TAG_DETAIL_FRAGMENT)
+            .commitNow()
+    }
+
+    override fun onBackPressed() {
+        //TODO handle master / detail
+        val detailFragment = supportFragmentManager.findFragmentByTag(TAG_DETAIL_FRAGMENT)
+        detailFragment?.run {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, PostListFragment.newInstance())
+                .commit()
+        } ?: super.onBackPressed()
     }
 }
