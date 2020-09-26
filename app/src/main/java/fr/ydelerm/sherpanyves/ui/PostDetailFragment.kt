@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.databinding.PostDetailFragmentBinding
 import fr.ydelerm.sherpanyves.model.PostAndUser
@@ -37,6 +40,22 @@ class PostDetailFragment : Fragment() {
         val listItemBinding = DataBindingUtil.inflate<PostDetailFragmentBinding>(layoutInflater, R.layout.post_detail_fragment, container, false)
         listItemBinding.postAndUser = postAndUser
         return listItemBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val allViewModel = ViewModelProvider(this).get(AllViewModel::class.java)
+
+        recyclerViewAlbums.layoutManager = LinearLayoutManager(this.activity)
+        recyclerViewAlbums.addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+
+        postAndUser?.let {
+            allViewModel.getUserWithAlbumsAndPhotos(it.user.id).observe(viewLifecycleOwner) {
+                it?.let {
+                    recyclerViewAlbums.swapAdapter(AlbumAdapter(it.albumsWithPhotos, /*this , activity as PostClickedListener*/), true)
+                }
+            }
+        }
     }
 
     companion object {

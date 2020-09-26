@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="albumWithPhotos" type="fr.ydelerm.sherpanyves.model.AlbumWithPhotos" />
+        <variable name="clickListener" type="android.view.View.OnClickListener"/>
+        <variable name="isCollapsed" type="Boolean"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/album_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_margin"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="@{clickListener}">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            style="@style/ListTitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:text="@{albumWithPhotos.album.title}"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@id/imageViewArrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/textViewTitle"
+            app:layout_constraintBottom_toBottomOf="@id/textViewTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:src="@drawable/ic_expand_more_24"
+            android:contentDescription="@string/expand_collapse"
+            android:rotation="@{isCollapsed ? 0 : 180}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

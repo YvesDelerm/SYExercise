@@ -37,6 +37,7 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
     def dagger_version = "2.29.1"
     def retrofit_version = "2.5.0"
     def room_version = "2.2.5"
@@ -60,6 +61,8 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation "androidx.paging:paging-runtime:2.1.2"
 

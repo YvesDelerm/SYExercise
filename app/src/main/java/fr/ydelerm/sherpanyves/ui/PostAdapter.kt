@@ -14,7 +14,12 @@ import fr.ydelerm.sherpanyves.databinding.PostListItemBinding
 import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
 
-class PostAdapter(private val postsAndUsers: List<PostAndUser>, viewModelStoreOwner: ViewModelStoreOwner, private val postClickedListener: PostClickedListener) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+class PostAdapter(
+    private val postsAndUsers: List<PostAndUser>,
+    viewModelStoreOwner: ViewModelStoreOwner,
+    private val postClickedListener: PostClickedListener
+) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+
     private val allViewModel = ViewModelProvider(viewModelStoreOwner).get(AllViewModel::class.java)
 
     class PostViewHolder(@NonNull val binding: PostListItemBinding,

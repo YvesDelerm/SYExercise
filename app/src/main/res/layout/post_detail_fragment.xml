@@ -7,34 +7,67 @@
         <variable name="postAndUser" type="fr.ydelerm.sherpanyves.model.PostAndUser" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_height="match_parent"
-        tools:context=".ui.PostDetailFragment"
-        android:padding="@dimen/medium_margin">
+        android:layout_width="match_parent"
+        tools:context=".ui.PostDetailFragment">
 
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="@dimen/medium_margin"
-            android:text="@{postAndUser.post.title}"
-            style="@style/ListTitleText"/>
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:id="@+id/textViewTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/medium_margin"
+                        android:text="@{postAndUser.post.title}"
+                        style="@style/ListTitleText"/>
 
 
-        <TextView
-            android:id="@+id/textViewBody"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/medium_margin"
-            android:text="@{postAndUser.post.body}"
-            style="@style/ItemText" />
+                    <TextView
+                        android:id="@+id/textViewBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="@dimen/medium_margin"
+                        android:layout_marginEnd="@dimen/medium_margin"
+                        android:text="@{postAndUser.post.body}"
+                        style="@style/ItemText" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <View
+                        android:id="@+id/horizontal_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewBody"
+                        android:layout_marginTop="@dimen/medium_margin"
+                        android:background="?android:attr/listDivider"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAlbums"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
