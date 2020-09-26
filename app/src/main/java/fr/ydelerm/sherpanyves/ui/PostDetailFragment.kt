@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import fr.ydelerm.sherpanyves.R
+import fr.ydelerm.sherpanyves.databinding.PostDetailFragmentBinding
 import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
 import kotlinx.android.synthetic.main.post_detail_fragment.*
@@ -32,18 +34,11 @@ class PostDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.post_detail_fragment, container, false)
+        val listItemBinding = DataBindingUtil.inflate<PostDetailFragmentBinding>(layoutInflater, R.layout.post_detail_fragment, container, false)
+        listItemBinding.postAndUser = postAndUser
+        return listItemBinding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        postAndUser?.let {
-            textViewTitle.text = it.post.title
-            textViewBody.text = it.post.body
-        }
-
-    }
-
+    
     companion object {
         /**
          * Use this factory method to create a new instance of

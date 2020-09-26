@@ -15,8 +15,7 @@ import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
 
 class PostAdapter(private val postsAndUsers: List<PostAndUser>, viewModelStoreOwner: ViewModelStoreOwner, private val postClickedListener: PostClickedListener) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-
-    val allViewModel = ViewModelProvider(viewModelStoreOwner).get(AllViewModel::class.java)
+    private val allViewModel = ViewModelProvider(viewModelStoreOwner).get(AllViewModel::class.java)
 
     class PostViewHolder(@NonNull v: View) : RecyclerView.ViewHolder(v) {
         internal var postLayout: ConstraintLayout = v.findViewById(R.id.post_layout)

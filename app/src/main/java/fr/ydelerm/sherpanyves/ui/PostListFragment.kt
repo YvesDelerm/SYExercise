@@ -1,7 +1,6 @@
 package fr.ydelerm.sherpanyves.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +42,7 @@ class PostListFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
         recyclerView.addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+        recyclerView.isSaveEnabled = true
 
         allViewModel.allPostsAndUsers.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
@@ -56,18 +56,8 @@ class PostListFragment : Fragment() {
             swipeContainer.isRefreshing = false
         }
 
-        allViewModel.allAlbumWithPhotos.observe(viewLifecycleOwner) {
-            Log.e("TEST", "albums " + it.size)
-        }
-
-        allViewModel.userWithAlbumsAndPhotos.observe(viewLifecycleOwner) {
-            Log.e("TEST", "user albums " + it?.albumsWithPhotos?.size)
-        }
-
         buttonRefresh.setOnClickListener { refresh(allViewModel) }
         swipeContainer.setOnRefreshListener { refresh(allViewModel) }
-
-        refresh(allViewModel)
     }
 
     private fun refresh(allViewModel: AllViewModel) {
