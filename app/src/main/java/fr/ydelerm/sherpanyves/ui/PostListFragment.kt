@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
+import fr.ydelerm.sherpanyves.databinding.PostDetailFragmentBinding
+import fr.ydelerm.sherpanyves.databinding.PostListFragmentBinding
 import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
 import fr.ydelerm.sherpanyves.viewmodel.PostListViewModel
 import kotlinx.android.synthetic.main.post_list_fragment.*
@@ -26,7 +29,8 @@ class PostListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.post_list_fragment, container, false)
+        val binding = DataBindingUtil.inflate<PostListFragmentBinding>(layoutInflater, R.layout.post_list_fragment, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

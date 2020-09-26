@@ -38,7 +38,7 @@ class PostDetailFragment : Fragment() {
         listItemBinding.postAndUser = postAndUser
         return listItemBinding.root
     }
-    
+
     companion object {
         /**
          * Use this factory method to create a new instance of

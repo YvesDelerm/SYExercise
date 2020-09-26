@@ -87,3 +87,4 @@ lint/tmp/
 /gradle/wrapper
 /gradlew
 /gradlew.bat
+/app/schemas/fr.ydelerm.sherpanyves.persistence.AppDatabase/1.json
