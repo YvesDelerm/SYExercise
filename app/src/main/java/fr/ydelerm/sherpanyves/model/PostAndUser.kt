@@ -5,4 +5,5 @@ import java.io.Serializable
 
 data class PostAndUser(
     @Embedded val user: User,
-    @Embedded val post: Post) : Serializable
+    @Embedded val post: Post
+) : Serializable

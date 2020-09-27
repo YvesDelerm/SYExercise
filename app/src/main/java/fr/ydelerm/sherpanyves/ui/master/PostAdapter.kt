@@ -1,30 +1,31 @@
-package fr.ydelerm.sherpanyves.ui
+package fr.ydelerm.sherpanyves.ui.master
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.annotation.NonNull
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.databinding.PostListItemBinding
 import fr.ydelerm.sherpanyves.model.PostAndUser
-import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
+import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 
 class PostAdapter(
-    private val postsAndUsers: List<PostAndUser>,
     viewModelStoreOwner: ViewModelStoreOwner,
     private val postClickedListener: PostClickedListener
-) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+) : PagedListAdapter<PostAndUser, PostAdapter.PostViewHolder>(PostDiffUtil()) {
 
-    private val allViewModel = ViewModelProvider(viewModelStoreOwner).get(AllViewModel::class.java)
+    private val allViewModel =
+        ViewModelProvider(viewModelStoreOwner).get(CommonViewModel::class.java)
 
-    class PostViewHolder(@NonNull val binding: PostListItemBinding,
-                         postClickedListener: PostClickedListener,
-                         allViewModel: AllViewModel
+    class PostViewHolder(
+        @NonNull val binding: PostListItemBinding,
+        postClickedListener: PostClickedListener,
+        commonViewModel: CommonViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
@@ -35,12 +36,12 @@ class PostAdapter(
 
             binding.setDeleteClickListener {
                 binding.postAndUser?.let {
-                    allViewModel.deletePost(it.post)
+                    commonViewModel.deletePost(it.post)
                 }
             }
         }
 
-        fun bind(item: PostAndUser) {
+        fun bind(item: PostAndUser?) {
             binding.apply {
                 postAndUser = item
                 executePendingBindings()
@@ -54,16 +55,25 @@ class PostAdapter(
         @NonNull parent: ViewGroup,
         viewType: Int
     ): PostViewHolder {
-        val binding = DataBindingUtil.inflate<PostListItemBinding>(LayoutInflater.from(parent.context), R.layout.post_list_item, parent, false)
+        val binding = DataBindingUtil.inflate<PostListItemBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.post_list_item,
+            parent,
+            false
+        )
         return PostViewHolder(binding, postClickedListener, allViewModel)
     }
 
     override fun onBindViewHolder(@NonNull holder: PostViewHolder, position: Int) {
-        val postAndUser = postsAndUsers[position]
+        val postAndUser = getItem(position)
         holder.bind(postAndUser)
     }
 
-    override fun getItemCount(): Int {
-        return postsAndUsers.size
+    internal class PostDiffUtil : DiffUtil.ItemCallback<PostAndUser>() {
+        override fun areItemsTheSame(oldItem: PostAndUser, newItem: PostAndUser) =
+            oldItem.post.id == newItem.post.id
+
+        override fun areContentsTheSame(oldItem: PostAndUser, newItem: PostAndUser) =
+            oldItem == newItem
     }
 }

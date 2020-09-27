@@ -2,19 +2,13 @@ package fr.ydelerm.sherpanyves.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import fr.ydelerm.sherpanyves.model.*
+import fr.ydelerm.sherpanyves.model.Post
+import fr.ydelerm.sherpanyves.model.PostAndUser
+import fr.ydelerm.sherpanyves.model.UserWithAlbumsAndPhotos
 
 interface Repository {
-    fun getUsers(): LiveData<List<User>>
-    fun refreshUsers()
-    fun getPosts(): LiveData<List<Post>>
-    fun refreshPosts()
-    fun getAlbums(): LiveData<List<Album>>
-    fun refreshAlbums()
-    fun getPhotos(): LiveData<List<Photo>>
-    fun refreshPhotos()
-    fun getPostsAndUsers(): LiveData<List<PostAndUser>>
-    fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>>
+    fun refreshData()
+    fun getPostsAndUsers(): DataSource.Factory<Int, PostAndUser>
     fun getUserWithAlbumsAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?>
     fun deletePost(post: Post)
 }

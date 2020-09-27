@@ -13,22 +13,6 @@ class DbDataSourceImpl @Inject constructor(db: AppDatabase) : SlaveDataSource {
     private var postDAO: PostDAO = db.postDAO()
     private var userDAO: UserDAO = db.userDAO()
 
-    override fun getUsers(): LiveData<List<User>> {
-        return userDAO.loadAllUsers()
-    }
-
-    override fun getPosts(): LiveData<List<Post>> {
-        return postDAO.loadAllPosts()
-    }
-
-    override fun getAlbums(): LiveData<List<Album>> {
-        return albumDAO.loadAllAlbums()
-    }
-
-    override fun getPhotos(): LiveData<List<Photo>> {
-        return photoDAO.loadAllPhotos()
-    }
-
     override fun insertUsers(users: List<User>) {
         Thread { userDAO.insertUsers(users) }.start()
     }
@@ -45,7 +29,7 @@ class DbDataSourceImpl @Inject constructor(db: AppDatabase) : SlaveDataSource {
         Thread { photoDAO.insertPhotos(photos) }.start()
     }
 
-    override fun getPostsWithUsers(): LiveData<List<PostAndUser>> {
+    override fun getPostsWithUsers(): DataSource.Factory<Int, PostAndUser> {
         return postDAO.getPostsWithUser()
     }
 

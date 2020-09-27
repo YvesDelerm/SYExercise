@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="albumWithPhotos" type="fr.ydelerm.sherpanyves.model.AlbumWithPhotos" />
-        <variable name="clickListener" type="android.view.View.OnClickListener"/>
-        <variable name="isCollapsed" type="Boolean"/>
+
+        <variable
+            name="albumWithPhotos"
+            type="fr.ydelerm.sherpanyves.model.AlbumWithPhotos" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="isCollapsed"
+            type="Boolean" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/album_layout"
         android:layout_width="match_parent"
@@ -37,7 +48,7 @@
             android:layout_marginEnd="@dimen/medium_margin"
             android:src="@drawable/ic_expand_more_24"
             android:contentDescription="@string/expand_collapse"
-            android:rotation="@{isCollapsed ? 0 : 180}"/>
+            android:rotation="@{isCollapsed ? 0 : 180}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

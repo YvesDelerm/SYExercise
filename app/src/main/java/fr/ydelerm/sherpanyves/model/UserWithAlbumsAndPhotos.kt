@@ -8,6 +8,7 @@ data class UserWithAlbumsAndPhotos(
     @Relation(
         entity = Album::class,
         parentColumn = "userId",
-        entityColumn = "albumUserId")
+        entityColumn = "albumUserId"
+    )
     val albumsWithPhotos: List<AlbumWithPhotos>
 )

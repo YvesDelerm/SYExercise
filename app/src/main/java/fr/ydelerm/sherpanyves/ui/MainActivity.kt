@@ -1,48 +1,58 @@
 package fr.ydelerm.sherpanyves.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.model.PostAndUser
-import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
+import fr.ydelerm.sherpanyves.ui.detail.PostDetailFragment
+import fr.ydelerm.sherpanyves.ui.master.PostClickedListener
+import fr.ydelerm.sherpanyves.ui.master.PostListFragment
+import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 
 const val PARAM_SELECTED_POST = "SELECTED_POST"
-const val TAG_DETAIL_FRAGMENT  = "TAG_DETAIL_FRAGMENT"
-const val TAG_MASTER_FRAGMENT  = "TAG_MASTER_FRAGMENT"
-class PostListActivity : AppCompatActivity(), PostClickedListener {
+const val TAG_DETAIL_FRAGMENT = "TAG_DETAIL_FRAGMENT"
+const val TAG_MASTER_FRAGMENT = "TAG_MASTER_FRAGMENT"
+
+class MainActivity : AppCompatActivity(), PostClickedListener {
 
     private var selectedPost: PostAndUser? = null
 
-    private var hasSecondPane: Boolean = false
+    var hasSecondPane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         title = getString(R.string.screens_title)
-        hasSecondPane = (findViewById<FrameLayout>(R.id.detail_fragment)!=null)
+        this.actionBar?.setDisplayHomeAsUpEnabled(true)
+        hasSecondPane = (findViewById<FrameLayout>(R.id.detail_fragment) != null)
 
-        val allViewModel = ViewModelProvider(this).get(AllViewModel::class.java)
+        val commonViewModel = ViewModelProvider(this).get(CommonViewModel::class.java)
 
         displayList()
         if (savedInstanceState == null) {
-            allViewModel.refreshAll()
+            commonViewModel.refreshData()
         } else {
             selectedPost = savedInstanceState.get(PARAM_SELECTED_POST) as PostAndUser?
             selectedPost?.let { displayPost(it) } ?: clearDetailFragment()
         }
-
+        commonViewModel.eventMessage.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        selectedPost?.let {outState.putSerializable(PARAM_SELECTED_POST, it)}
+        selectedPost?.let { outState.putSerializable(PARAM_SELECTED_POST, it) }
         super.onSaveInstanceState(outState)
     }
 
     override fun onBackPressed() {
         selectedPost = null
-        if (!hasSecondPane && supportFragmentManager.findFragmentByTag(TAG_DETAIL_FRAGMENT)!=null) {
+        if (!hasSecondPane && supportFragmentManager.findFragmentByTag(TAG_DETAIL_FRAGMENT) != null) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(
@@ -70,7 +80,11 @@ class PostListActivity : AppCompatActivity(), PostClickedListener {
     }
 
     private fun displayPost(postAndUser: PostAndUser) {
-        val containerViewId = if (hasSecondPane) { R.id.detail_fragment } else { R.id.master_fragment}
+        val containerViewId = if (hasSecondPane) {
+            R.id.detail_fragment
+        } else {
+            R.id.master_fragment
+        }
         supportFragmentManager.beginTransaction()
             .replace(
                 containerViewId,
@@ -78,6 +92,7 @@ class PostListActivity : AppCompatActivity(), PostClickedListener {
                 TAG_DETAIL_FRAGMENT
             )
             .commitNow()
+
     }
 
 

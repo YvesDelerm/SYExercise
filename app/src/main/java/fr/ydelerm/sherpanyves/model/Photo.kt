@@ -4,12 +4,21 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.squareup.picasso.Picasso
 
 
 @Entity
+    (
+    foreignKeys = [ForeignKey(
+        entity = Album::class,
+        parentColumns = arrayOf("albumId"),
+        childColumns = arrayOf("photoAlbumId"),
+        onDelete = ForeignKey.NO_ACTION
+    )]
+)
 data class Photo(
     @ColumnInfo(name = "photoAlbumId")
     val albumId: Int,
@@ -29,7 +38,6 @@ data class Photo(
                 .placeholder(CircularProgressDrawable(view.context))
                 .error(android.R.drawable.ic_menu_camera)
                 .into(view)
-
         }
     }
 }

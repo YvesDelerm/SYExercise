@@ -1,20 +1,18 @@
-package fr.ydelerm.sherpanyves.ui
+package fr.ydelerm.sherpanyves.ui.master
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
-import fr.ydelerm.sherpanyves.databinding.PostDetailFragmentBinding
 import fr.ydelerm.sherpanyves.databinding.PostListFragmentBinding
-import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
-import fr.ydelerm.sherpanyves.viewmodel.PostListViewModel
+import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 import kotlinx.android.synthetic.main.post_list_fragment.*
 
 class PostListFragment : Fragment() {
@@ -23,37 +21,37 @@ class PostListFragment : Fragment() {
         fun newInstance() = PostListFragment()
     }
 
-    private lateinit var postListViewModel: PostListViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<PostListFragmentBinding>(layoutInflater, R.layout.post_list_fragment, container, false)
+        val binding = DataBindingUtil.inflate<PostListFragmentBinding>(
+            layoutInflater,
+            R.layout.post_list_fragment,
+            container,
+            false
+        )
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        postListViewModel = ViewModelProvider(this).get(PostListViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val allViewModel = ViewModelProvider(this).get(AllViewModel::class.java)
+        val allViewModel = ViewModelProvider(activity!!).get(CommonViewModel::class.java)
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
         recyclerView.addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         recyclerView.isSaveEnabled = true
+        val postAdapter = PostAdapter(activity!!, activity as PostClickedListener)
+        recyclerView.adapter = postAdapter
 
         allViewModel.allPostsAndUsers.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 buttonRefresh.visibility = View.VISIBLE
                 textviewError.visibility = View.VISIBLE
             } else {
-                recyclerView.swapAdapter(PostAdapter(it, this , activity as PostClickedListener), true)
+                postAdapter.submitList(it)
                 buttonRefresh.visibility = View.GONE
                 textviewError.visibility = View.GONE
             }
@@ -64,11 +62,11 @@ class PostListFragment : Fragment() {
         swipeContainer.setOnRefreshListener { refresh(allViewModel) }
     }
 
-    private fun refresh(allViewModel: AllViewModel) {
+    private fun refresh(commonViewModel: CommonViewModel) {
         buttonRefresh.visibility = View.GONE
         textviewError.visibility = View.GONE
         swipeContainer.isRefreshing = true
-        allViewModel.refreshAll()
+        commonViewModel.refreshData()
     }
 
 }

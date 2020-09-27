@@ -1,4 +1,4 @@
-package fr.ydelerm.sherpanyves.ui
+package fr.ydelerm.sherpanyves.ui.detail
 
 
 interface HeaderClickListener {

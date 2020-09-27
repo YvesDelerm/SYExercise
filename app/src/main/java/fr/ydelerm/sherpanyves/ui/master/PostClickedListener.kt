@@ -1,4 +1,4 @@
-package fr.ydelerm.sherpanyves.ui
+package fr.ydelerm.sherpanyves.ui.master
 
 import fr.ydelerm.sherpanyves.model.PostAndUser
 

@@ -1,19 +1,18 @@
-package fr.ydelerm.sherpanyves.ui
+package fr.ydelerm.sherpanyves.ui.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.databinding.PostDetailFragmentBinding
 import fr.ydelerm.sherpanyves.model.PostAndUser
-import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
+import fr.ydelerm.sherpanyves.ui.NavigationChildFragment
+import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 import kotlinx.android.synthetic.main.post_detail_fragment.*
 
 private const val ARG_POST_AND_USER = "postAndUser"
@@ -23,7 +22,7 @@ private const val ARG_POST_AND_USER = "postAndUser"
  * Use the [PostDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PostDetailFragment : Fragment() {
+class PostDetailFragment : NavigationChildFragment() {
     private var postAndUser: PostAndUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,28 +32,34 @@ class PostDetailFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
+    override fun onCreateChildView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val listItemBinding = DataBindingUtil.inflate<PostDetailFragmentBinding>(layoutInflater, R.layout.post_detail_fragment, container, false)
+        val listItemBinding = DataBindingUtil.inflate<PostDetailFragmentBinding>(
+            layoutInflater,
+            R.layout.post_detail_fragment,
+            container,
+            false
+        )
         listItemBinding.postAndUser = postAndUser
         return listItemBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val allViewModel = ViewModelProvider(this).get(AllViewModel::class.java)
+        val allViewModel = ViewModelProvider(activity!!).get(CommonViewModel::class.java)
 
         recyclerViewAlbums.layoutManager = LinearLayoutManager(this.activity)
-        recyclerViewAlbums.addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+        recyclerViewAlbums.isSaveEnabled = true
 
-        postAndUser?.let {
-            allViewModel.getUserWithAlbumsAndPhotos(it.user.id).observe(viewLifecycleOwner) {
-                it?.let {
-                    recyclerViewAlbums.swapAdapter(AlbumAdapter(it.albumsWithPhotos, /*this , activity as PostClickedListener*/), true)
+        postAndUser?.let { _postAndUser ->
+            allViewModel.getUserWithAlbumsAndPhotos(_postAndUser.user.id)
+                .observe(viewLifecycleOwner) {
+                    it?.let {
+                        recyclerViewAlbums.swapAdapter(AlbumAdapter(it.albumsWithPhotos), true)
+                    }
                 }
-            }
         }
     }
 

@@ -4,13 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="postAndUser" type="fr.ydelerm.sherpanyves.model.PostAndUser" />
+
+        <variable
+            name="postAndUser"
+            type="fr.ydelerm.sherpanyves.model.PostAndUser" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        tools:context=".ui.PostDetailFragment">
+        tools:context=".ui.detail.PostDetailFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -20,10 +23,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/white">
+                    android:background="@color/light_background">
 
                     <TextView
                         android:id="@+id/textViewTitle"
@@ -34,7 +38,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_margin="@dimen/medium_margin"
                         android:text="@{postAndUser.post.title}"
-                        style="@style/ListTitleText"/>
+                        style="@style/ListTitleText" />
 
 
                     <TextView
@@ -48,16 +52,6 @@
                         android:text="@{postAndUser.post.body}"
                         style="@style/ItemText" />
 
-                    <View
-                        android:id="@+id/horizontal_divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textViewBody"
-                        android:layout_marginTop="@dimen/medium_margin"
-                        android:background="?android:attr/listDivider"/>
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -67,7 +61,8 @@
             android:id="@+id/recyclerViewAlbums"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:background="@color/light_background"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

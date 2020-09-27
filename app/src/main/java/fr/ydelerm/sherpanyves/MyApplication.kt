@@ -8,6 +8,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appGraph = DaggerApplicationGraph.builder().application(this).build() as DaggerApplicationGraph
+        appGraph =
+            DaggerApplicationGraph.builder().application(this).build() as DaggerApplicationGraph
     }
 }

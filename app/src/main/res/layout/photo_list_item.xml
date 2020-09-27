@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="photo" type="fr.ydelerm.sherpanyves.model.Photo" />
+
+        <variable
+            name="photo"
+            type="fr.ydelerm.sherpanyves.model.Photo" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/photo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/medium_margin"
-        android:background="?android:attr/selectableItemBackground">
+        android:layout_margin="@dimen/small_margin"
+        android:background="@drawable/rounded_rect"
+        android:elevation="1dp"
+        android:padding="@dimen/small_margin">
 
         <ImageView
             android:id="@+id/imageViewPhoto"
@@ -28,9 +35,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewPhoto"
-            android:layout_marginStart="@dimen/medium_margin"
             android:text="@{photo.title}"
-            style="@style/ItemText"/>
+            style="@style/ItemText"
+            android:textAlignment="center" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,13 +7,13 @@ import fr.ydelerm.sherpanyves.network.NetworkModule
 import fr.ydelerm.sherpanyves.persistence.PersistenceModule
 import fr.ydelerm.sherpanyves.repository.MixedRepositoryImpl
 import fr.ydelerm.sherpanyves.repository.RepositoryModule
-import fr.ydelerm.sherpanyves.viewmodel.AllViewModel
+import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [RepositoryModule::class, NetworkModule::class, PersistenceModule::class])
 interface ApplicationGraph {
-    fun inject(viewModel: AllViewModel)
+    fun inject(viewModel: CommonViewModel)
     fun inject(repository: MixedRepositoryImpl)
 
     @Component.Builder

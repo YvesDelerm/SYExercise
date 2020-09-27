@@ -5,23 +5,23 @@ import fr.ydelerm.sherpanyves.model.Album
 import fr.ydelerm.sherpanyves.model.Photo
 import fr.ydelerm.sherpanyves.model.Post
 import fr.ydelerm.sherpanyves.model.User
-import retrofit2.Call
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 
 interface ApiService {
     @NonNull
     @GET("posts")
-    fun getPosts(): Call<List<Post>>
+    fun getPosts(): Observable<List<Post>>
 
     @NonNull
     @GET("users")
-    fun getUsers(): Call<List<User>>
+    fun getUsers(): Observable<List<User>>
 
     @NonNull
     @GET("albums")
-    fun getAlbums(): Call<List<Album>>
+    fun getAlbums(): Observable<List<Album>>
 
     @NonNull
     @GET("photos")
-    fun getPhotos(): Call<List<Photo>>
+    fun getPhotos(): Observable<List<Photo>>
 }
