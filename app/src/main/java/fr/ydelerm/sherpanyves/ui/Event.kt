@@ -5,8 +5,7 @@ package fr.ydelerm.sherpanyves.ui
  */
 open class Event<out T>(private val content: T) {
 
-    var hasBeenHandled = false
-        private set
+    private var hasBeenHandled = false
 
     /**
      * Returns the content and prevents its use again.
@@ -19,9 +18,4 @@ open class Event<out T>(private val content: T) {
             content
         }
     }
-
-    /**
-     * Returns the content, even if it's already been handled.
-     */
-    fun peekContent(): T = content
 }

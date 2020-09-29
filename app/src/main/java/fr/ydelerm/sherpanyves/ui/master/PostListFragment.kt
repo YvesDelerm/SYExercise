@@ -15,6 +15,9 @@ import fr.ydelerm.sherpanyves.databinding.PostListFragmentBinding
 import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 import kotlinx.android.synthetic.main.post_list_fragment.*
 
+/**
+ * A [Fragment] that displays the list of the posts
+ */
 class PostListFragment : Fragment() {
 
     companion object {

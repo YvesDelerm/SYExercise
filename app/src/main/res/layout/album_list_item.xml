@@ -21,9 +21,9 @@
         android:id="@+id/album_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/medium_margin"
         android:background="?android:attr/selectableItemBackground"
-        android:onClick="@{clickListener}">
+        android:onClick="@{clickListener}"
+        android:padding="@dimen/medium_margin">
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -41,14 +41,14 @@
             android:id="@+id/imageViewArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/textViewTitle"
-            app:layout_constraintBottom_toBottomOf="@id/textViewTitle"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginEnd="@dimen/medium_margin"
-            android:src="@drawable/ic_expand_more_24"
             android:contentDescription="@string/expand_collapse"
-            android:rotation="@{isCollapsed ? 0 : 180}" />
+            android:rotation="@{isCollapsed ? 0 : 180}"
+            android:src="@drawable/ic_expand_more_24"
+            app:layout_constraintBottom_toBottomOf="@id/textViewTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textViewTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

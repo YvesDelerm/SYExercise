@@ -14,6 +14,9 @@ import fr.ydelerm.sherpanyves.databinding.PostListItemBinding
 import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 
+/**
+ * Post adapter: a [PagedListAdapter] that binds [PostAndUser] into [RecyclerView] cells
+ */
 class PostAdapter(
     viewModelStoreOwner: ViewModelStoreOwner,
     private val postClickedListener: PostClickedListener

@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
+/**
+ * A [Fragment] handling navigation button in the toolbar
+ */
 abstract class NavigationChildFragment : Fragment() {
 
     abstract fun onCreateChildView(

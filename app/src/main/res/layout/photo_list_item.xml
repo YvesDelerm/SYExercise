@@ -22,22 +22,22 @@
             android:id="@+id/imageViewPhoto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/photo"
+            app:imageUrl="@{photo.url}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:imageUrl="@{photo.url}"
-            android:contentDescription="@string/photo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textViewTitle"
+            style="@style/ItemText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@{photo.title}"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewPhoto"
-            android:text="@{photo.title}"
-            style="@style/ItemText"
-            android:textAlignment="center" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewPhoto" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

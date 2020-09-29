@@ -4,14 +4,14 @@ import android.app.Application
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import fr.ydelerm.sherpanyves.repository.SlaveDataSource
+import fr.ydelerm.sherpanyves.repository.LocalDataSource
 import javax.inject.Singleton
 
 @Module
 class PersistenceModule {
     @Singleton
     @Provides
-    fun slaveDataSource(db: AppDatabase): SlaveDataSource {
+    fun slaveDataSource(db: AppDatabase): LocalDataSource {
         return DbDataSourceImpl(db)
     }
 

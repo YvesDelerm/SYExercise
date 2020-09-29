@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import fr.ydelerm.sherpanyves.model.*
 
-interface SlaveDataSource {
+/**
+ * allow data access from/to a remote source
+ */
+interface LocalDataSource {
     fun insertUsers(users: List<User>)
     fun insertAlbums(albums: List<Album>)
     fun insertPosts(posts: List<Post>)

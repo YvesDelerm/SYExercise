@@ -15,10 +15,10 @@ import javax.inject.Inject
 class MixedRepositoryImpl(application: Application) : Repository {
 
     @Inject
-    lateinit var masterDataSource: MasterDataSource
+    lateinit var remoteDataSource: RemoteDataSource
 
     @Inject
-    lateinit var slaveDataSource: SlaveDataSource
+    lateinit var localDataSource: LocalDataSource
 
     init {
         (application as MyApplication)
@@ -26,13 +26,13 @@ class MixedRepositoryImpl(application: Application) : Repository {
     }
 
     override fun refreshData() {
-        val usersObservable = masterDataSource.getUsers()
+        val usersObservable = remoteDataSource.getUsers()
             .subscribeOn(Schedulers.io())
-        val postsObservable = masterDataSource.getPosts()
+        val postsObservable = remoteDataSource.getPosts()
             .subscribeOn(Schedulers.io())
-        val albumsObservable = masterDataSource.getAlbums()
+        val albumsObservable = remoteDataSource.getAlbums()
             .subscribeOn(Schedulers.io())
-        val photosObservable = masterDataSource.getPhotos()
+        val photosObservable = remoteDataSource.getPhotos()
             .subscribeOn(Schedulers.io())
         Observable.zip(
             usersObservable,
@@ -49,23 +49,23 @@ class MixedRepositoryImpl(application: Application) : Repository {
 
     private fun insertAllData(allData: GroupedData?) {
         allData?.let {
-            slaveDataSource.insertUsers(it.users)
-            slaveDataSource.insertPosts(it.posts)
-            slaveDataSource.insertAlbums(it.albums)
-            slaveDataSource.insertPhotos(it.photos)
+            localDataSource.insertUsers(it.users)
+            localDataSource.insertPosts(it.posts)
+            localDataSource.insertAlbums(it.albums)
+            localDataSource.insertPhotos(it.photos)
         }
     }
 
     override fun getPostsAndUsers(): DataSource.Factory<Int, PostAndUser> {
-        return slaveDataSource.getPostsWithUsers()
+        return localDataSource.getPostsWithUsers()
     }
 
     override fun getUserWithAlbumsAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?> {
-        return slaveDataSource.getUserWithAlbumAndPhotos(givenUserId)
+        return localDataSource.getUserWithAlbumAndPhotos(givenUserId)
     }
 
     override fun deletePost(post: Post) {
-        slaveDataSource.deletePost(post)
+        localDataSource.deletePost(post)
     }
 
 }

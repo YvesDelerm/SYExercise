@@ -16,6 +16,9 @@ const val PARAM_SELECTED_POST = "SELECTED_POST"
 const val TAG_DETAIL_FRAGMENT = "TAG_DETAIL_FRAGMENT"
 const val TAG_MASTER_FRAGMENT = "TAG_MASTER_FRAGMENT"
 
+/**
+ * MainActivity : a [AppCompatActivity] that displays master (posts list) and detail (post detail) views
+ */
 class MainActivity : AppCompatActivity(), PostClickedListener {
 
     private var selectedPost: PostAndUser? = null
@@ -94,7 +97,6 @@ class MainActivity : AppCompatActivity(), PostClickedListener {
             .commitNow()
 
     }
-
 
     private fun clearDetailFragment() {
         supportFragmentManager.findFragmentByTag(TAG_DETAIL_FRAGMENT)?.let {

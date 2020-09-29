@@ -3,10 +3,10 @@ package fr.ydelerm.sherpanyves.persistence
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import fr.ydelerm.sherpanyves.model.*
-import fr.ydelerm.sherpanyves.repository.SlaveDataSource
+import fr.ydelerm.sherpanyves.repository.LocalDataSource
 import javax.inject.Inject
 
-class DbDataSourceImpl @Inject constructor(db: AppDatabase) : SlaveDataSource {
+class DbDataSourceImpl @Inject constructor(db: AppDatabase) : LocalDataSource {
 
     private var albumDAO: AlbumDAO = db.albumDAO()
     private var photoDAO: PhotoDAO = db.photoDAO()

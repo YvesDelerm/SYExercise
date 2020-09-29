@@ -4,12 +4,12 @@ import fr.ydelerm.sherpanyves.model.Album
 import fr.ydelerm.sherpanyves.model.Photo
 import fr.ydelerm.sherpanyves.model.Post
 import fr.ydelerm.sherpanyves.model.User
-import fr.ydelerm.sherpanyves.repository.MasterDataSource
+import fr.ydelerm.sherpanyves.repository.RemoteDataSource
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class NetworkDataSourceImpl @Inject constructor(private val apiService: ApiService) :
-    MasterDataSource {
+    RemoteDataSource {
 
     override fun getUsers(): Observable<List<User>> {
         return apiService.getUsers()

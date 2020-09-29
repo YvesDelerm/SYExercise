@@ -14,6 +14,9 @@ import fr.ydelerm.sherpanyves.model.Photo
 const val ITEM_TYPE_ALBUM_HEADER = 0
 const val ITEM_TYPE_PHOTO = 1
 
+/**
+ * [RecyclerView.Adapter] : binds [AlbumWithPhotos] into [RecyclerView] cell
+ */
 class AlbumAdapter(albumsWithPhotos: List<AlbumWithPhotos>) :
     RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>(), HeaderClickListener {
     private val itemsToDisplay: MutableList<AlbumViewHolder.Item>

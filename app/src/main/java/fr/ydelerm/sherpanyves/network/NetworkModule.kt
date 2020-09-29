@@ -2,7 +2,7 @@ package fr.ydelerm.sherpanyves.network
 
 import dagger.Module
 import dagger.Provides
-import fr.ydelerm.sherpanyves.repository.MasterDataSource
+import fr.ydelerm.sherpanyves.repository.RemoteDataSource
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,7 +14,7 @@ private const val BASE_URL = "http://jsonplaceholder.typicode.com/"
 class NetworkModule {
     @Singleton
     @Provides
-    fun masterDataSource(apiService: ApiService): MasterDataSource {
+    fun masterDataSource(apiService: ApiService): RemoteDataSource {
         return NetworkDataSourceImpl(apiService)
     }
 
