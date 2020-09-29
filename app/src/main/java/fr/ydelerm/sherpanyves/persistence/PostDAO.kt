@@ -14,9 +14,11 @@ interface PostDAO {
     @Query("SELECT * FROM post")
     fun loadAllPosts(): LiveData<List<Post>>
 
-    @Query("SELECT post.*, user.* FROM post INNER JOIN user ON post.postUserId == user.userId order by postId ASC")
+    @Query("SELECT post.*, user.* FROM post INNER JOIN user ON post.postUserId == user.userId")
     fun getPostsWithUser(): DataSource.Factory<Int, PostAndUser>
-    //fun getPostsWithUser(): LiveData<List<PostAndUser>>
+
+    @Query("SELECT post.*, user.* FROM post INNER JOIN user ON post.postUserId == user.userId WHERE post.title LIKE :title")
+    fun getPostsWithUserContaining(title: String): DataSource.Factory<Int, PostAndUser>
 
     @Delete
     fun deletePost(post: Post)

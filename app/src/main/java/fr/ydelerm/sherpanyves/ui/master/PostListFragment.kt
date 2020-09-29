@@ -1,17 +1,18 @@
 package fr.ydelerm.sherpanyves.ui.master
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.databinding.PostListFragmentBinding
+import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.viewmodel.CommonViewModel
 import kotlinx.android.synthetic.main.post_list_fragment.*
 
@@ -22,6 +23,15 @@ class PostListFragment : Fragment() {
 
     companion object {
         fun newInstance() = PostListFragment()
+    }
+
+    lateinit var commonViewModel: CommonViewModel
+    private lateinit var postAdapter: PostAdapter
+    lateinit var observer: (t: PagedList<PostAndUser>) -> Unit
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -39,18 +49,26 @@ class PostListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
-        val allViewModel = ViewModelProvider(activity!!).get(CommonViewModel::class.java)
+        commonViewModel = ViewModelProvider(activity!!).get(CommonViewModel::class.java)
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
         recyclerView.addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         recyclerView.isSaveEnabled = true
-        val postAdapter = PostAdapter(activity!!, activity as PostClickedListener)
+        postAdapter = PostAdapter(activity!!, activity as PostClickedListener)
         recyclerView.adapter = postAdapter
 
-        allViewModel.allPostsAndUsers.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
+        subscribe()
+
+        buttonRefresh.setOnClickListener { refresh(commonViewModel) }
+        swipeContainer.setOnRefreshListener { refresh(commonViewModel) }
+    }
+
+    private fun subscribe() {
+        observer = {
+            if (it.isEmpty() && commonViewModel.isFiteringEnabled.value == false) {
                 buttonRefresh.visibility = View.VISIBLE
                 textviewError.visibility = View.VISIBLE
             } else {
@@ -60,9 +78,7 @@ class PostListFragment : Fragment() {
             }
             swipeContainer.isRefreshing = false
         }
-
-        buttonRefresh.setOnClickListener { refresh(allViewModel) }
-        swipeContainer.setOnRefreshListener { refresh(allViewModel) }
+        commonViewModel.postsAndUsers.observe(viewLifecycleOwner, observer)
     }
 
     private fun refresh(commonViewModel: CommonViewModel) {
@@ -70,6 +86,27 @@ class PostListFragment : Fragment() {
         textviewError.visibility = View.GONE
         swipeContainer.isRefreshing = true
         commonViewModel.refreshData()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.post_list_fragment_menu, menu)
+        val actionView = menu.findItem(R.id.menu_action_search)?.actionView as SearchView
+
+        actionView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                commonViewModel.postsAndUsers.removeObserver(observer)
+                commonViewModel.filterPosts(query)
+                subscribe()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                commonViewModel.postsAndUsers.removeObserver(observer)
+                commonViewModel.filterPosts(newText)
+                subscribe()
+                return true
+            }
+        })
     }
 
 }

@@ -8,4 +8,6 @@
     <string name="photo">Photo</string>
     <string name="post_deleted">Post deleted</string>
     <string name="data_reloaded">Data reloaded</string>
+    <string name="search">Search</string>
+    <string name="error_occurred">Error occurred while loading data</string>
 </resources>

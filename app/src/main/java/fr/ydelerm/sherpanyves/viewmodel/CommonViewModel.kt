@@ -39,14 +39,30 @@ class CommonViewModel(application: Application) : AndroidViewModel(application) 
     /**
      * gives paged posts and users data
      */
-    val allPostsAndUsers = LivePagedListBuilder(repository.getPostsAndUsers(), config).build()
+    var postsAndUsers = LivePagedListBuilder(repository.getPostsAndUsers(), config).build()
+
+    /**
+     * Enable / disable post filtering by title
+     * An empty string disables filtering
+     * @param filterText the text to look for in posts title
+     */
+    fun filterPosts(filterText: String?) {
+        isFiteringEnabled.value = !(filterText.isNullOrEmpty())
+        val factory =
+            if (filterText.isNullOrEmpty()) repository.getPostsAndUsers() else repository.getPostsWithUserContaining(
+                "%$filterText%"
+            )
+        postsAndUsers = LivePagedListBuilder(factory, config).build()
+    }
+
+    val isFiteringEnabled = MutableLiveData(false)
 
     /**
      * refresh users, posts, albums and photos data
+     *
      */
     fun refreshData() {
-        repository.refreshData()
-        eventMessage.postValue(Event(getApplication<MyApplication>().baseContext.getString(R.string.data_reloaded)))
+        repository.refreshData(eventMessage)
     }
 
     /**

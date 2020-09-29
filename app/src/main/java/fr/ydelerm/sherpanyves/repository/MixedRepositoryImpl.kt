@@ -1,18 +1,25 @@
 package fr.ydelerm.sherpanyves.repository
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import androidx.room.Transaction
 import fr.ydelerm.sherpanyves.MyApplication
+import fr.ydelerm.sherpanyves.R
 import fr.ydelerm.sherpanyves.model.GroupedData
 import fr.ydelerm.sherpanyves.model.Post
 import fr.ydelerm.sherpanyves.model.PostAndUser
 import fr.ydelerm.sherpanyves.model.UserWithAlbumsAndPhotos
+import fr.ydelerm.sherpanyves.ui.Event
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class MixedRepositoryImpl(application: Application) : Repository {
+const val LOGTAG = "MixedRepositoryImp"
+
+class MixedRepositoryImpl(private val application: Application) : Repository {
 
     @Inject
     lateinit var remoteDataSource: RemoteDataSource
@@ -25,7 +32,7 @@ class MixedRepositoryImpl(application: Application) : Repository {
             .appGraph.inject(this)
     }
 
-    override fun refreshData() {
+    override fun refreshData(eventMessage: MutableLiveData<Event<String>>) {
         val usersObservable = remoteDataSource.getUsers()
             .subscribeOn(Schedulers.io())
         val postsObservable = remoteDataSource.getPosts()
@@ -42,11 +49,18 @@ class MixedRepositoryImpl(application: Application) : Repository {
             { users, posts, albums, photos ->
                 GroupedData(users, posts, albums, photos)
             }).subscribeOn(Schedulers.io())
-            .subscribe {
+            .subscribe({
                 insertAllData(it)
-            }
+                eventMessage.postValue(Event(application.baseContext.getString(R.string.data_reloaded)))
+            },
+                {
+                    Log.e(LOGTAG, "error while loading data", it)
+                    eventMessage.postValue(Event(application.baseContext.getString(R.string.error_occurred)))
+                }
+            )
     }
 
+    @Transaction
     private fun insertAllData(allData: GroupedData?) {
         allData?.let {
             localDataSource.insertUsers(it.users)
@@ -58,6 +72,10 @@ class MixedRepositoryImpl(application: Application) : Repository {
 
     override fun getPostsAndUsers(): DataSource.Factory<Int, PostAndUser> {
         return localDataSource.getPostsWithUsers()
+    }
+
+    override fun getPostsWithUserContaining(title: String): DataSource.Factory<Int, PostAndUser> {
+        return localDataSource.getPostsWithUserContaining(title)
     }
 
     override fun getUserWithAlbumsAndPhotos(givenUserId: Int): LiveData<UserWithAlbumsAndPhotos?> {

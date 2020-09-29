@@ -14,23 +14,27 @@ class DbDataSourceImpl @Inject constructor(db: AppDatabase) : LocalDataSource {
     private var userDAO: UserDAO = db.userDAO()
 
     override fun insertUsers(users: List<User>) {
-        Thread { userDAO.insertUsers(users) }.start()
+        userDAO.insertUsers(users)
     }
 
     override fun insertAlbums(albums: List<Album>) {
-        Thread { albumDAO.insertAlbums(albums) }.start()
+        albumDAO.insertAlbums(albums)
     }
 
     override fun insertPosts(posts: List<Post>) {
-        Thread { postDAO.insertPosts(posts) }.start()
+        postDAO.insertPosts(posts)
     }
 
     override fun insertPhotos(photos: List<Photo>) {
-        Thread { photoDAO.insertPhotos(photos) }.start()
+        photoDAO.insertPhotos(photos)
     }
 
     override fun getPostsWithUsers(): DataSource.Factory<Int, PostAndUser> {
         return postDAO.getPostsWithUser()
+    }
+
+    override fun getPostsWithUserContaining(title: String): DataSource.Factory<Int, PostAndUser> {
+        return postDAO.getPostsWithUserContaining(title)
     }
 
     override fun getAlbumsWithPhotos(): LiveData<List<AlbumWithPhotos>> {
