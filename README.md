@@ -1,4 +1,4 @@
-# SherpanYves
+# SY Exercise
 
 Exercise app with a master view containing a list of posts and a detail view containing a list of albums and their photos
 
