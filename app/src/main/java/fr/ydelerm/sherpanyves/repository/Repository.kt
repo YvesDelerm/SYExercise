@@ -13,8 +13,12 @@ interface Repository {
     /**
      * refresh users, posts, albums and photos data
      * @param eventMessage object where to write the operation callback
+     * @param isRefreshing callback indicating whether the operation is still going
      */
-    fun refreshData(eventMessage: MutableLiveData<Event<String>>)
+    fun refreshData(
+        eventMessage: MutableLiveData<Event<String>>,
+        isRefreshing: MutableLiveData<Boolean>
+    )
 
     /**
      * @return a [DataSource.Factory] allowing to get paged list of [PostAndUser]

@@ -32,7 +32,12 @@ class MixedRepositoryImpl(private val application: Application) : Repository {
             .appGraph.inject(this)
     }
 
-    override fun refreshData(eventMessage: MutableLiveData<Event<String>>) {
+    override fun refreshData(
+        eventMessage: MutableLiveData<Event<String>>,
+        isRefreshing: MutableLiveData<Boolean>
+    ) {
+        isRefreshing.postValue(true)
+
         val usersObservable = remoteDataSource.getUsers()
             .subscribeOn(Schedulers.io())
         val postsObservable = remoteDataSource.getPosts()
@@ -50,10 +55,12 @@ class MixedRepositoryImpl(private val application: Application) : Repository {
                 GroupedData(users, posts, albums, photos)
             }).subscribeOn(Schedulers.io())
             .subscribe({
+                isRefreshing.postValue(false)
                 insertAllData(it)
                 eventMessage.postValue(Event(application.baseContext.getString(R.string.data_reloaded)))
             },
                 {
+                    isRefreshing.postValue(false)
                     Log.e(LOGTAG, "error while loading data", it)
                     eventMessage.postValue(Event(application.baseContext.getString(R.string.error_occurred)))
                 }

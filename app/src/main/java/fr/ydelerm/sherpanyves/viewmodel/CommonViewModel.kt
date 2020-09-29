@@ -42,6 +42,11 @@ class CommonViewModel(application: Application) : AndroidViewModel(application) 
     var postsAndUsers = LivePagedListBuilder(repository.getPostsAndUsers(), config).build()
 
     /**
+     * indicates when data refresh is ongoing
+     */
+    var isRefreshing = MutableLiveData(false)
+
+    /**
      * Enable / disable post filtering by title
      * An empty string disables filtering
      * @param filterText the text to look for in posts title
@@ -62,7 +67,7 @@ class CommonViewModel(application: Application) : AndroidViewModel(application) 
      *
      */
     fun refreshData() {
-        repository.refreshData(eventMessage)
+        repository.refreshData(eventMessage, isRefreshing)
     }
 
     /**

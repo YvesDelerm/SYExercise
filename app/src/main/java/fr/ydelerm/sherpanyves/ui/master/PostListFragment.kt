@@ -28,6 +28,7 @@ class PostListFragment : Fragment() {
     lateinit var commonViewModel: CommonViewModel
     private lateinit var postAdapter: PostAdapter
     lateinit var observer: (t: PagedList<PostAndUser>) -> Unit
+    private lateinit var binding: PostListFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +39,13 @@ class PostListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<PostListFragmentBinding>(
+        binding = DataBindingUtil.inflate(
             layoutInflater,
             R.layout.post_list_fragment,
             container,
             false
         )
+        binding.clickListener = View.OnClickListener { refresh(commonViewModel) }
         return binding.root
     }
 
@@ -62,29 +64,28 @@ class PostListFragment : Fragment() {
 
         subscribe()
 
-        buttonRefresh.setOnClickListener { refresh(commonViewModel) }
         swipeContainer.setOnRefreshListener { refresh(commonViewModel) }
+        commonViewModel.isRefreshing.observe(viewLifecycleOwner) {
+            swipeContainer.isRefreshing = it
+            refreshEmptyView()
+        }
     }
 
     private fun subscribe() {
         observer = {
-            if (it.isEmpty() && commonViewModel.isFiteringEnabled.value == false) {
-                buttonRefresh.visibility = View.VISIBLE
-                textviewError.visibility = View.VISIBLE
-            } else {
-                postAdapter.submitList(it)
-                buttonRefresh.visibility = View.GONE
-                textviewError.visibility = View.GONE
-            }
-            swipeContainer.isRefreshing = false
+            refreshEmptyView()
+            postAdapter.submitList(it)
         }
         commonViewModel.postsAndUsers.observe(viewLifecycleOwner, observer)
     }
 
+    private fun refreshEmptyView() {
+        binding.emptyViewVisible = (commonViewModel.postsAndUsers.value
+            ?: ArrayList()).isEmpty() && commonViewModel.isFiteringEnabled.value == false
+    }
+
     private fun refresh(commonViewModel: CommonViewModel) {
-        buttonRefresh.visibility = View.GONE
-        textviewError.visibility = View.GONE
-        swipeContainer.isRefreshing = true
+        binding.emptyViewVisible = false
         commonViewModel.refreshData()
     }
 
