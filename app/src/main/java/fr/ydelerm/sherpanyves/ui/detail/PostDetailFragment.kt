@@ -57,7 +57,21 @@ class PostDetailFragment : NavigationChildFragment() {
             allViewModel.getUserWithAlbumsAndPhotos(_postAndUser.user.id)
                 .observe(viewLifecycleOwner) {
                     it?.let {
-                        recyclerViewAlbums.swapAdapter(AlbumAdapter(it.albumsWithPhotos), true)
+                        val albumAdapter = AlbumAdapter(it.albumsWithPhotos)
+                        recyclerViewAlbums.swapAdapter(albumAdapter, true)
+                        // renewing itemdecoration every time, so it has the latest adapter
+                        if (recyclerViewAlbums.itemDecorationCount > 0) {
+                            recyclerViewAlbums.removeItemDecorationAt(0)
+                        }
+                        recyclerViewAlbums.addItemDecoration(
+                            HeaderItemDecoration(
+                                recyclerViewAlbums,
+                                albumAdapter
+                            ) { itemPosition ->
+                                if (itemPosition >= 0 && itemPosition < albumAdapter.itemCount) {
+                                    albumAdapter.getItemViewType(itemPosition) == ITEM_TYPE_ALBUM_HEADER
+                                } else false
+                            })
                     }
                 }
         }

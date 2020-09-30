@@ -4,4 +4,5 @@
     <dimen name="medium_text_size">18sp</dimen>
     <dimen name="medium_margin">24dp</dimen>
     <dimen name="master_pane_width">360dp</dimen>
+    <dimen name="header_height">80dp</dimen>
 </resources>

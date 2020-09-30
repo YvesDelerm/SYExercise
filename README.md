@@ -4,8 +4,6 @@ Exercise app with a master view containing a list of posts and a detail view con
 
 Focus has been set on code and simplicity rather than on design, because it is easier to follow a design mock-up from a designer than to create clean code for complex features
 
-One bonus (sticky headers) is still in progress
-
 Main libraries used are :
 - Android architecture components for viewmodel
 - Retrofit for API

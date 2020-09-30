@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,8 +21,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/album_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="@dimen/header_height"
+        android:background="@color/light_background"
+        android:foreground="?android:attr/selectableItemBackground"
         android:onClick="@{clickListener}"
         android:padding="@dimen/medium_margin">
 
@@ -33,9 +35,11 @@
             android:layout_marginEnd="@dimen/medium_margin"
             android:text="@{albumWithPhotos.album.title}"
             android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/imageViewArrow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Lorem ipsum dolor sic amet et balal sfdf sfdf dfddg" />
 
         <ImageView
             android:id="@+id/imageViewArrow"

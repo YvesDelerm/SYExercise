@@ -45,7 +45,6 @@ class AlbumAdapter(albumsWithPhotos: List<AlbumWithPhotos>) :
             get() = ITEM_TYPE_ALBUM_HEADER
     }
 
-
     class AlbumHeaderViewHolder(
         private val binding: AlbumListItemBinding,
         private val headerClickListener: HeaderClickListener
@@ -55,10 +54,7 @@ class AlbumAdapter(albumsWithPhotos: List<AlbumWithPhotos>) :
             binding.apply {
                 albumWithPhotos = (item as AlbumItem).album
                 clickListener = View.OnClickListener {
-                    headerClickListener.onHeaderClick(
-                        item,
-                        adapterPosition
-                    )
+                    headerClickListener.onHeaderClick(adapterPosition)
                 }
                 isCollapsed = item.isCollapsed
                 executePendingBindings()
@@ -123,13 +119,17 @@ class AlbumAdapter(albumsWithPhotos: List<AlbumWithPhotos>) :
         }
     }
 
-    override fun onHeaderClick(albumItem: AlbumItem, position: Int) {
-        if (albumItem.isCollapsed) {
-            expand(albumItem, position)
-        } else {
-            collapse(albumItem, position)
+    override fun onHeaderClick(position: Int): Boolean? {
+        (itemsToDisplay[position] as? AlbumItem)?.let {
+            if (it.isCollapsed) {
+                expand(it, position)
+            } else {
+                collapse(it, position)
+            }
+            it.isCollapsed = !it.isCollapsed
+            return it.isCollapsed
         }
-        albumItem.isCollapsed = !albumItem.isCollapsed
+        return null
     }
 
     private fun expand(albumItem: AlbumItem, position: Int) {
