@@ -28,7 +28,7 @@ class PostDetailFragment : NavigationChildFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            postAndUser = it.getSerializable(ARG_POST_AND_USER) as PostAndUser
+            postAndUser = it.getParcelable(ARG_POST_AND_USER) as? PostAndUser
         }
     }
 
@@ -89,7 +89,7 @@ class PostDetailFragment : NavigationChildFragment() {
         fun newInstance(postAndUser: PostAndUser) =
             PostDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(ARG_POST_AND_USER, postAndUser)
+                    putParcelable(ARG_POST_AND_USER, postAndUser)
                 }
             }
     }
