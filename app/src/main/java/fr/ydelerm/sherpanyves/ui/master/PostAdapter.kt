@@ -28,7 +28,8 @@ class PostAdapter(
     class PostViewHolder(
         @NonNull val binding: PostListItemBinding,
         postClickedListener: PostClickedListener,
-        commonViewModel: CommonViewModel
+        commonViewModel: CommonViewModel,
+        postAdapter: PostAdapter
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
@@ -40,6 +41,7 @@ class PostAdapter(
             binding.setDeleteClickListener {
                 binding.postAndUser?.let {
                     commonViewModel.deletePost(it.post)
+                    postAdapter.notifyItemRemoved(adapterPosition)
                 }
             }
         }
@@ -64,7 +66,7 @@ class PostAdapter(
             parent,
             false
         )
-        return PostViewHolder(binding, postClickedListener, allViewModel)
+        return PostViewHolder(binding, postClickedListener, allViewModel, this)
     }
 
     override fun onBindViewHolder(@NonNull holder: PostViewHolder, position: Int) {
